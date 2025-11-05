@@ -5,8 +5,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
 import Icon from '@/components/ui/icon';
-import { useToast } from '@/hooks/use-toast';
 
 const services = [
   { id: 1, name: 'Классический маникюр', price: '1500 ₽', duration: '60 мин', icon: 'Sparkles' },
@@ -61,7 +61,7 @@ export default function Index() {
     name: '',
     phone: '',
   });
-  const { toast } = useToast();
+
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -71,18 +71,11 @@ export default function Index() {
 
   const handleBooking = () => {
     if (!bookingData.service || !bookingData.master || !bookingData.date || !bookingData.time || !bookingData.name || !bookingData.phone) {
-      toast({
-        title: 'Заполните все поля',
-        description: 'Пожалуйста, заполните все обязательные поля для записи',
-        variant: 'destructive',
-      });
+      toast.error('Пожалуйста, заполните все обязательные поля для записи');
       return;
     }
 
-    toast({
-      title: 'Запись успешно создана! 🎉',
-      description: `Вы записаны на ${bookingData.date} в ${bookingData.time}`,
-    });
+    toast.success(`Запись успешно создана! 🎉\nВы записаны на ${bookingData.date} в ${bookingData.time}`);
     
     setBookingData({
       service: '',
